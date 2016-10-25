@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.Model", "AirVinyl\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.DataAccessLayer", "AirVinyl\AirVinyl.DataAccessLayer\AirVinyl.DataAccessLayer.csproj", "{F8B46C2B-6DFA-42AB-8860-96A6457BF85E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.Api", "AirVinyl\AirVinyl.Api\AirVinyl.Api.csproj", "{CCD208A5-6F4E-4ED2-BF2D-C6764D0DD82E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.Api", "AirVinyl\AirVinyl.Api\AirVinyl.Api.csproj", "{A11818E1-3FF8-4951-8E5B-0D42981281F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F8B46C2B-6DFA-42AB-8860-96A6457BF85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8B46C2B-6DFA-42AB-8860-96A6457BF85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8B46C2B-6DFA-42AB-8860-96A6457BF85E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCD208A5-6F4E-4ED2-BF2D-C6764D0DD82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCD208A5-6F4E-4ED2-BF2D-C6764D0DD82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCD208A5-6F4E-4ED2-BF2D-C6764D0DD82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCD208A5-6F4E-4ED2-BF2D-C6764D0DD82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
