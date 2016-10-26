@@ -5,8 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.OData;
+using System.Web.OData.Extensions;
 using System.Web.OData.Routing;
 using AirVinyl.Api.Helpers;
+using AirVinyl.Model;
+using System.Net;
 
 namespace AirVinyl.Api.Controllers
 {
@@ -114,6 +117,171 @@ namespace AirVinyl.Api.Controllers
             {
                 return this.CreateOKHttpActionResult(propertyValue.ToString());
             }
+        }
+
+        public IHttpActionResult Post(Person person)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _ctx.People.Add(person);
+            _ctx.SaveChanges();
+
+            return Created(person);
+        }
+
+        public IHttpActionResult Put([FromODataUri] int key,  Person person)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentPerson = _ctx.People.FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            person.PersonId = currentPerson.PersonId;
+
+            _ctx.Entry(currentPerson).CurrentValues.SetValues(person);
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        public IHttpActionResult Patch([FromODataUri] int key, Delta<Person> patch)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentPerson = _ctx.People.FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            patch.Patch(currentPerson); 
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        public IHttpActionResult Delete([FromODataUri] int key)
+        {            
+            var currentPerson = _ctx.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            var peopleWithCurrentPersonAsFriend = _ctx.People.Include("Friends")
+                .Where(p => p.Friends.Select(f => f.PersonId).AsQueryable().Contains(key));
+
+            foreach(var person in peopleWithCurrentPersonAsFriend)
+            {
+                person.Friends.Remove(currentPerson);
+            }
+
+            _ctx.People.Remove(currentPerson);
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [HttpPost]
+        //[ODataRoute("People({key})/Friends({relatedKey})/$ref")]
+        [ODataRoute("People({key})/Friends/$ref")]
+        //public IHttpActionResult CreateLinkToFriend([FromODataUri] int key, [FromODataUri] int relatedKey)
+        public IHttpActionResult UpdateLinkToFriend([FromODataUri] int key, [FromBody] Uri link)
+        {
+            var currentPerson = _ctx.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            int relatedKey = Request.GetKeyValue<int>(link);
+
+            if (currentPerson.Friends.Any(i => i.PersonId == relatedKey))
+            {
+                return BadRequest(string.Format("The person with id {0} id already linked to the person with id {1}", key, relatedKey));
+            }
+
+            var friendToLinkTo = _ctx.People.FirstOrDefault(p => p.PersonId == relatedKey);
+            if (friendToLinkTo == null)
+            {
+                return NotFound();
+            }
+
+            currentPerson.Friends.Add(friendToLinkTo);
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [HttpPut]
+        [ODataRoute("People({key})/Friends({relatedKey})/$ref")]
+        public IHttpActionResult UpdateLinkToFriend([FromODataUri] int key, [FromODataUri] int relatedKey, [FromBody] Uri link)
+        {
+            var currentPerson = _ctx.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            var currentFriend = currentPerson.Friends.FirstOrDefault(f => f.PersonId == relatedKey);
+            if (currentFriend == null)
+            {
+                return NotFound();
+            }
+
+            int keyOfFriendToAdd = Request.GetKeyValue<int>(link);
+
+            if (currentPerson.Friends.Any(i => i.PersonId == keyOfFriendToAdd))
+            {
+                return BadRequest(string.Format("The person with id {0} id already linked to the person with id {1}", key, keyOfFriendToAdd));
+            }
+
+            var friendToLinkTo = _ctx.People.FirstOrDefault(p => p.PersonId == keyOfFriendToAdd);
+            if (friendToLinkTo == null)
+            {
+                return NotFound();
+            }
+
+            currentPerson.Friends.Remove(currentFriend);
+            currentPerson.Friends.Add(friendToLinkTo);
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        [HttpDelete]
+        [ODataRoute("People({key})/Friends({relatedKey})/$ref")]
+        public IHttpActionResult DeleteLinkToFriend([FromODataUri] int key, [FromODataUri] int relatedKey)
+        {
+            var currentPerson = _ctx.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            var currentFriend = currentPerson.Friends.FirstOrDefault(f => f.PersonId == relatedKey);
+            if (currentFriend == null)
+            {
+                return NotFound();
+            }
+
+            currentPerson.Friends.Remove(currentFriend);
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         protected override void Dispose(bool disposing)
