@@ -1,5 +1,7 @@
 ﻿using AirVinyl.Model;
 using Microsoft.OData.Edm;
+using Swashbuckle.Application;
+using Swashbuckle.OData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,14 @@ namespace AirVinyl.Api
 
         public static void Register(HttpConfiguration config)
         {
+            config
+               .EnableSwagger(c =>
+               {
+                   c.SingleApiVersion("v1", "A title for your API");
+                   c.CustomProvider(defaultProvider => new ODataSwaggerProvider(defaultProvider, c, GlobalConfiguration.Configuration));
+               })
+               .EnableSwaggerUi();
+
             config.MapODataServiceRoute("ODataRoute", "odata", GetEdmModel());
 
             config.EnsureInitialized();

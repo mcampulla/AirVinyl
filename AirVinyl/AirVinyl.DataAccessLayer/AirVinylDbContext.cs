@@ -10,7 +10,7 @@ namespace AirVinyl.DataAccessLayer
         public DbSet<RecordStore> RecordStores { get; set; }
         public DbSet<PressingDetail> PressingDetails { get; set; }
     
-        public AirVinylDbContext()
+        public AirVinylDbContext() : base("ConnStringDb1")
         {
             Database.SetInitializer(new AirVinylDBInitializer());
             // disable lazy loading

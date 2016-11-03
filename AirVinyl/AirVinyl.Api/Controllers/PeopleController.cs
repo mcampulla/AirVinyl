@@ -18,6 +18,7 @@ namespace AirVinyl.Api.Controllers
 
         private AirVinylDbContext _ctx = new AirVinylDbContext();
 
+        [EnableQuery]
         public IHttpActionResult Get()
         {
             return Ok(_ctx.People);
