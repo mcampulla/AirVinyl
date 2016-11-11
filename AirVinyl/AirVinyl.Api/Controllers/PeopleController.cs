@@ -24,6 +24,13 @@ namespace AirVinyl.Api.Controllers
             return Ok(_ctx.People);
         }
 
+        //[EnableQuery]
+        //[ODataRoute("People({key})/sticazzi")]
+        //public IHttpActionResult GetSticazzi()
+        //{
+        //    return Ok(_ctx.People);
+        //}
+
         public IHttpActionResult Get([FromODataUri]int key)
         {
             var person = _ctx.People.FirstOrDefault(p => p.PersonId == key);

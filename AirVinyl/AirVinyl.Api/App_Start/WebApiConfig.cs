@@ -38,6 +38,7 @@ namespace AirVinyl.Api
             builder.EntitySet<Person>("People");
             builder.EntitySet<VinylRecord>("VinylRecords");
 
+            //builder.EntityType<Person>().Action("sticazzi"); //    .Parameter<int>("Rating");
             return builder.GetEdmModel();
         }
 

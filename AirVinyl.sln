@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.DataAccessLayer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.Api", "AirVinyl\AirVinyl.Api\AirVinyl.Api.csproj", "{A11818E1-3FF8-4951-8E5B-0D42981281F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVinyl.Web", "AirVinyl.Web\AirVinyl.Web.csproj", "{F530889A-2BD9-491C-82C4-83FDCB44D364}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A11818E1-3FF8-4951-8E5B-0D42981281F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F530889A-2BD9-491C-82C4-83FDCB44D364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F530889A-2BD9-491C-82C4-83FDCB44D364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F530889A-2BD9-491C-82C4-83FDCB44D364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F530889A-2BD9-491C-82C4-83FDCB44D364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
